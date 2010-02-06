@@ -17,7 +17,7 @@ case node[:instance_role]
      variables({
           :app_name => app_name,
           :server_names => node[:members]
-      })
+     })
    end
 
    template "/data/#{app_name}/current/config/juggernaut.yml" do
@@ -28,7 +28,7 @@ case node[:instance_role]
      variables({
           :app_name => app_name,
           :server_names => node[:members]
-      })
+     })
    end
    
    template "/data/#{app_name}/current/config/juggernaut_hosts.yml" do
@@ -39,7 +39,7 @@ case node[:instance_role]
       variables({
            :app_name => app_name,
            :server_names => node[:members]
-       })
+      })
     end
  end
 end
