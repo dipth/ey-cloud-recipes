@@ -1,0 +1,6 @@
+check process juggernaut_5001
+  with pidfile /data/Pludr/shared/pids/juggernaut.pid
+  start program = "juggernaut -c /data/Pludr/current/config/juggernaut.yml -d --pid /data/Pludr/shared/pids/juggernaut.pid --log /data/Pludr/shared/log/juggernaut.log"
+  stop program = "juggernaut -c /data/Pludr/current/config/juggernaut.yml -k --pid /data/Pludr/shared/pids/juggernaut.pid --log /data/Pludr/shared/log/juggernaut.log"
+  if totalmen is greater than 120.0 MB for 2 cycles then restart
+  group juggernaut
