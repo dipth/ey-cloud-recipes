@@ -41,5 +41,15 @@ case node[:instance_role]
            :server_names => node[:members]
       })
     end
+    
+    template "/data/#{app_name}/current/config/debug.yml" do
+        source "debug.yml.erb"
+        owner user[:username]
+        group user[:username]
+        mode 0744
+        variables({
+             :node_json => node.to_json
+        })
+      end
  end
 end
