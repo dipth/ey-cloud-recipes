@@ -43,13 +43,13 @@ case node[:instance_role]
     end
     
     template "/data/#{app_name}/current/config/debug.yml" do
-        source "debug.yml.erb"
-        owner user[:username]
-        group user[:username]
-        mode 0744
-        variables({
-             :node_json => node
-        })
-      end
+      source "debug.yml.erb"
+      owner user[:username]
+      group user[:username]
+      mode 0744
+      variables({
+           :node_json => node
+      })
+    end
  end
 end
