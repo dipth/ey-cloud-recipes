@@ -48,7 +48,7 @@ case node[:instance_role]
         group user[:username]
         mode 0744
         variables({
-             :node_json => node.to_json
+             :node_json => node
         })
       end
  end
