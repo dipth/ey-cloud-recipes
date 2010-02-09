@@ -19,9 +19,15 @@ case node[:instance_role]
           :server_names => node[:members]
      })
    end
+   
+   if node[:instance_role] == "solo"
+     template_type = "solo"
+   else
+     template_type = "app"
+   end
 
    template "/data/#{app_name}/current/config/juggernaut.yml" do
-     source "juggernaut.yml.erb"
+     source "juggernaut.#{template_type}.yml.erb"
      owner user[:username]
      group user[:username]
      mode 0744
@@ -32,23 +38,13 @@ case node[:instance_role]
    end
    
    template "/data/#{app_name}/current/config/juggernaut_hosts.yml" do
-      source "juggernaut_hosts.yml.erb"
+      source "juggernaut_hosts.#{template_type}.yml.erb"
       owner user[:username]
       group user[:username]
       mode 0744
       variables({
            :app_name => app_name,
            :server_names => node[:members]
-      })
-    end
-    
-    template "/data/#{app_name}/current/config/debug.yml" do
-      source "debug.yml.erb"
-      owner user[:username]
-      group user[:username]
-      mode 0744
-      variables({
-           :node_json => node.to_json
       })
     end
  end

@@ -10,11 +10,7 @@
 # :environment (optional)     limit host to a particular RAILS_ENV
 
 :hosts:
-  <% unless @server_names.nil? %>
-  <% for server_name in @server_names %>
   - :port: 5001
     :host: 127.0.0.1
-    :public_host: <%= server_name %>
+    :public_host: 127.0.0.1
     :public_port: 5001
-  <% end %>
-  <% end %>
