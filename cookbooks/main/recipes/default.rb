@@ -28,7 +28,7 @@
 #uncomment to run the eybackup_slave recipe
 #require_recipe "eybackup_slave"
 
-require_recipe "juggernaut"
+#require_recipe "juggernaut"
 
 #uncomment to run the ssmtp recipe
 #require_recipe "ssmtp"
