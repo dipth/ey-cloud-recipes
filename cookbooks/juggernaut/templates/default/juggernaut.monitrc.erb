@@ -1,6 +1,5 @@
-check process juggernaut_5001
-  with pidfile /data/Pludr/shared/pids/juggernaut.pid
-  start program = "juggernaut -c /data/Pludr/current/config/juggernaut.yml -d --pid /data/Pludr/shared/pids/juggernaut.pid --log /data/Pludr/shared/log/juggernaut.log"
-  stop program = "juggernaut -c /data/Pludr/current/config/juggernaut.yml -k --pid /data/Pludr/shared/pids/juggernaut.pid --log /data/Pludr/shared/log/juggernaut.log"
-  if totalmen is greater than 120.0 MB for 2 cycles then restart
-  group juggernaut
+check process <%= @worker_name %>
+  with pidfile /data/<%= @app_name %>/shared/pids/<%= @worker_name %>.pid
+  start program = "/bin/su -c 'juggernaut -c /data/<%= @app_name %>/current/config/juggernaut.yml -d --log  /data/<%= @app_name %>/current/log/juggernaut.log' - <%= @user %>"
+  stop program = "/bin/su -c 'juggernaut -c /data/<%= @app_name %>/current/config/juggernaut.yml -k --log  /data/<%= @app_name %>/current/log/juggernaut.log' - <%= @user %>"
+  group <%= @app_name %>_juggernaut

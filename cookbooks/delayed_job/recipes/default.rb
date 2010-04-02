@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: juggernaut
+# Cookbook Name:: delayed_job
 # Recipe:: default
 #
 if ['solo', 'app', 'app_master'].include?(node[:instance_role])
@@ -7,7 +7,7 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
   # be sure to replace "app_name" with the name of your application.
   run_for_app("Pludr") do |app_name, data|
   
-    worker_name = "juggernaut"
+    worker_name = "delayed_job"
     
     # The symlink is created in /data/app_name/current/tmp/pids -> /data/app_name/shared/pids, but shared/pids doesn't seem to be?
     directory "/data/#{app_name}/shared/pids" do
@@ -16,8 +16,8 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       mode 0755
     end
  
-    template "/etc/monit.d/juggernaut.#{app_name}.monitrc" do
-      source "juggernaut.monitrc.erb"
+    template "/etc/monit.d/delayed_job_worker.#{app_name}.monitrc" do
+      source "delayed_job_worker.monitrc.erb"
       #owner node[:owner_name]
       #group node[:owner_name]
       owner "root"
