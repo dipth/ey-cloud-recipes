@@ -1,5 +1,5 @@
 check process <%= @worker_name %>
   with pidfile /data/<%= @app_name %>/shared/pids/<%= @worker_name %>.pid
-  start program = "/bin/su -c 'juggernaut -c /data/<%= @app_name %>/current/config/juggernaut.yml -d --log  /data/<%= @app_name %>/current/log/juggernaut.log' - <%= @user %>"
-  stop program = "/bin/su -c 'juggernaut -c /data/<%= @app_name %>/current/config/juggernaut.yml -k --log  /data/<%= @app_name %>/current/log/juggernaut.log' - <%= @user %>"
+  start program = "/bin/su -c 'juggernaut -c /data/<%= @app_name %>/current/config/juggernaut.yml -d --log /data/<%= @app_name %>/current/log/juggernaut.log --pid /data/<%= @app_name %>/shared/pids/<%= @worker_name %>.pid' - <%= @user %>"
+  stop program = "/bin/su -c 'juggernaut -c /data/<%= @app_name %>/current/config/juggernaut.yml -k --log /data/<%= @app_name %>/current/log/juggernaut.log --pid /data/<%= @app_name %>/shared/pids/<%= @worker_name %>.pid' - <%= @user %>"
   group <%= @app_name %>_juggernaut
