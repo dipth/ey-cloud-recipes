@@ -28,9 +28,9 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
 
     for instance in dna_instances
       role = instance['role']
-    #  if role == "solo" || role == "app_master" || role == "app"
-    #    juggernaut_instances << instance['public_hostname']
-    #  end
+      if role == "solo" || role == "app_master" || role == "app"
+        juggernaut_instances << instance['public_hostname']
+      end
     end
   
     worker_name = "juggernaut"
