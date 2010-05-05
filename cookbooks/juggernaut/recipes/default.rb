@@ -24,14 +24,14 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
     dna_environment = dna_engineyard['environment']
     dna_instances = dna_environment['instances']
 
-    #juggernaut_instances = Array.new
+    juggernaut_instances = Array.new
 
-    #for instance in dna_instances
-    #  role = instance['role']
+    for instance in dna_instances
+      role = instance['role']
     #  if role == "solo" || role == "app_master" || role == "app"
     #    juggernaut_instances << instance['public_hostname']
     #  end
-    #end
+    end
   
     worker_name = "juggernaut"
     
