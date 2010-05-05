@@ -1,7 +1,25 @@
+require 'rubygems'
+require 'json'
+
 #
 # Cookbook Name:: juggernaut
 # Recipe:: default
 #
+
+dna = JSON.parse(IO.read('/etc/chef/dna.json'))
+dna_engineyard = dna['engineyard']
+dna_environment = dna_engineyard['environment']
+dna_instances = dna_environment['instances']
+
+juggernaut_instances = Array.new
+
+for instance in dna_instances
+  role = instance['role']
+  if role == "solo" || role == "app_master" || role == "app"
+    juggernaut_instances << instance['public_hostname']
+  end
+end
+
 if ['solo', 'app', 'app_master'].include?(node[:instance_role])
  
   # be sure to replace "app_name" with the name of your application.
@@ -18,8 +36,6 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
  
     template "/etc/monit.d/juggernaut.#{app_name}.monitrc" do
       source "juggernaut.monitrc.erb"
-      #owner node[:owner_name]
-      #group node[:owner_name]
       owner "root"
       group "root"
       mode 0644
@@ -28,6 +44,26 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
         :user => node[:owner_name],
         :worker_name => worker_name,
         :framework_env => node[:environment][:framework_env]
+      })
+    end
+    
+    template "/data/#{app_name}/shared/config/juggernaut_hosts.yml"
+      source "juggernaut_hosts.yml.erb"
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0644
+      variables({
+        :hosts => juggernaut_instances
+      })
+    end
+    
+    template "/data/#{app_name}/shared/config/juggernaut.yml"
+      source "juggernaut.yml.erb"
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0644
+      variables({
+        :hosts => juggernaut_instances
       })
     end
     
