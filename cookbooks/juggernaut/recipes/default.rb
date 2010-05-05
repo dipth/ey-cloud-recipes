@@ -1,26 +1,24 @@
-require 'rubygems'
 require 'json'
-
 #
 # Cookbook Name:: juggernaut
 # Recipe:: default
 #
 
-dna = JSON.parse(IO.read('/etc/chef/dna.json'))
-dna_engineyard = dna['engineyard']
-dna_environment = dna_engineyard['environment']
-dna_instances = dna_environment['instances']
-
-juggernaut_instances = Array.new
-
-for instance in dna_instances
-  role = instance['role']
-  if role == "solo" || role == "app_master" || role == "app"
-    juggernaut_instances << instance['public_hostname']
-  end
-end
-
 if ['solo', 'app', 'app_master'].include?(node[:instance_role])
+
+  dna = JSON.parse(IO.read('/etc/chef/dna.json'))
+  dna_engineyard = dna['engineyard']
+  dna_environment = dna_engineyard['environment']
+  dna_instances = dna_environment['instances']
+
+  juggernaut_instances = Array.new
+
+  for instance in dna_instances
+    role = instance['role']
+    if role == "solo" || role == "app_master" || role == "app"
+      juggernaut_instances << instance['public_hostname']
+    end
+  end
  
   # be sure to replace "app_name" with the name of your application.
   run_for_app("Pludr") do |app_name, data|
