@@ -1,4 +1,3 @@
-require 'json'
 #
 # Cookbook Name:: juggernaut
 # Recipe:: default
