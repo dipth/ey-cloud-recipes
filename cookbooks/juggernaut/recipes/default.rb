@@ -41,12 +41,6 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       group node[:owner_name]
       mode 0755
     end
-    
-    directory "/data/#{app_name}/shared/config" do
-      owner node[:owner_name]
-      group node[:owner_name]
-      mode 0755
-    end
  
     template "/etc/monit.d/juggernaut.#{app_name}.monitrc" do
       source "juggernaut.monitrc.erb"
