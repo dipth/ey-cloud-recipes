@@ -7,31 +7,31 @@ require 'json'
 
 if ['solo', 'app', 'app_master'].include?(node[:instance_role])
 
-  execute "change dna.json permissions" do
-    command "chmod 644 /etc/chef/dna.json"
-  end
-  
-  dna = JSON.parse(IO.read('/etc/chef/dna.json'))
-  
-  execute "change dna.json permissions" do
-    command "chmod 600 /etc/chef/dna.json"
-  end
-  
-  dna_engineyard = dna['engineyard']
-  dna_environment = dna_engineyard['environment']
-  dna_instances = dna_environment['instances']
-
-  juggernaut_instances = Array.new
-
-  for instance in dna_instances
-    role = instance['role']
-    if role == "solo" || role == "app_master" || role == "app"
-      juggernaut_instances << instance['public_hostname']
-    end
-  end
- 
   # be sure to replace "app_name" with the name of your application.
   run_for_app("Pludr") do |app_name, data|
+  
+    execute "change dna.json permissions" do
+      command "chmod 644 /etc/chef/dna.json"
+    end
+
+    dna = JSON.parse(IO.read('/etc/chef/dna.json'))
+
+    execute "change dna.json permissions" do
+      command "chmod 600 /etc/chef/dna.json"
+    end
+
+    #dna_engineyard = dna['engineyard']
+    #dna_environment = dna_engineyard['environment']
+    #dna_instances = dna_environment['instances']
+
+    #juggernaut_instances = Array.new
+
+    #for instance in dna_instances
+    #  role = instance['role']
+    #  if role == "solo" || role == "app_master" || role == "app"
+    #    juggernaut_instances << instance['public_hostname']
+    #  end
+    #end
   
     worker_name = "juggernaut"
     
@@ -55,25 +55,25 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       })
     end
     
-    template "/data/#{app_name}/shared/config/juggernaut_hosts.yml"
-      source "juggernaut_hosts.yml.erb"
-      owner node[:owner_name]
-      group node[:owner_name]
-      mode 0644
-      variables({
-        :hosts => juggernaut_instances
-      })
-    end
+    #template "/data/#{app_name}/shared/config/juggernaut_hosts.yml"
+    #  source "juggernaut_hosts.yml.erb"
+    #  owner node[:owner_name]
+    #  group node[:owner_name]
+    #  mode 0644
+    #  variables({
+    #    :hosts => juggernaut_instances
+    #  })
+    #end
     
-    template "/data/#{app_name}/shared/config/juggernaut.yml"
-      source "juggernaut.yml.erb"
-      owner node[:owner_name]
-      group node[:owner_name]
-      mode 0644
-      variables({
-        :hosts => juggernaut_instances
-      })
-    end
+    #template "/data/#{app_name}/shared/config/juggernaut.yml"
+    #  source "juggernaut.yml.erb"
+    #  owner node[:owner_name]
+    #  group node[:owner_name]
+    #  mode 0644
+    #  variables({
+    #    :hosts => juggernaut_instances
+    #  })
+    #end
     
     bash "monit-reload-restart" do
        user "root"
