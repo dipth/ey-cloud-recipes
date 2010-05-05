@@ -55,15 +55,15 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       })
     end
     
-    #template "/data/#{app_name}/shared/config/juggernaut_hosts.yml"
-    #  source "juggernaut_hosts.yml.erb"
-    #  owner node[:owner_name]
-    #  group node[:owner_name]
-    #  mode 0644
-    #  variables({
-    #    :hosts => juggernaut_instances
-    #  })
-    #end
+    template "/data/#{app_name}/shared/config/juggernaut_hosts.yml"
+      source "juggernaut_hosts.yml.erb"
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0644
+      variables({
+        :hosts => juggernaut_instances
+      })
+    end
     
     #template "/data/#{app_name}/shared/config/juggernaut.yml"
     #  source "juggernaut.yml.erb"
