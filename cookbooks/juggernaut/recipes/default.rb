@@ -1,3 +1,4 @@
+require 'json'
 #
 # Cookbook Name:: juggernaut
 # Recipe:: default
@@ -5,7 +6,16 @@
 
 if ['solo', 'app', 'app_master'].include?(node[:instance_role])
 
+  execute "change dna.json permissions" do
+    command "chmod 644 /etc/chef/dna.json"
+  end
+  
   dna = JSON.parse(IO.read('/etc/chef/dna.json'))
+  
+  execute "change dna.json permissions" do
+    command "chmod 600 /etc/chef/dna.json"
+  end
+  
   dna_engineyard = dna['engineyard']
   dna_environment = dna_engineyard['environment']
   dna_instances = dna_environment['instances']
