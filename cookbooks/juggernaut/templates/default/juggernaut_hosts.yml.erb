@@ -10,10 +10,10 @@
 # :environment (optional)     limit host to a particular RAILS_ENV
 
 :hosts:
-  <% for host in @hosts %>
+<% for host in @hosts %>
   - :port: 11311
     :host: <%= host %>
     :public_host: <%= host %>
     :public_port: 11311
     :secret_key: 6c1a04d5da7d9c9f879b506e0b866a81e145d4f9
-  <% end %>
+<% end %>
