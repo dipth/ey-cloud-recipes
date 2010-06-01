@@ -27,7 +27,8 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
 
     juggernaut_instances = Array.new
     internal_ips = Array.new
-
+    host_ips = Hash.new
+    
     for instance in dna_instances
       role = instance['role']
       if role == "solo" || role == "app_master" || role == "app"
@@ -38,6 +39,12 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
     for member in dna_members
       ip = member.gsub(/ip-/, '').gsub(/\.ec2\.internal/, '').gsub(/-/, '.')
       internal_ips << ip
+    end
+    
+    (0..instance.length).each do |i|
+      host = instances[i]
+      ip = internal_ips[i]
+      host_ips[host] = ip
     end
   
     worker_name = "juggernaut"
@@ -69,7 +76,8 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       mode 0644
       variables({
         :hosts => juggernaut_instances,
-        :ips => internal_ips
+        :ips => internal_ips,
+        :host_ips => host_ips
       })
     end
     
