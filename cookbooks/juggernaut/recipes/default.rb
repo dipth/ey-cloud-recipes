@@ -41,8 +41,8 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       internal_ips << ip
     end
     
-    (0..instance.length).each do |i|
-      host = instances[i]
+    for i in 0..(juggernaut_instances.length)
+      host = juggernaut_instances[i]
       ip = internal_ips[i]
       host_ips[host] = ip
     end
