@@ -68,7 +68,8 @@ if ['solo', 'app', 'app_master'].include?(node[:instance_role])
       group node[:owner_name]
       mode 0644
       variables({
-        :hosts => juggernaut_instances
+        :hosts => juggernaut_instances,
+        :ips => internal_ips
       })
     end
     
