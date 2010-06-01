@@ -30,11 +30,8 @@
 # 
 # This is the recommended method for broadcast authentication.
 #
-:allowed_ips: 
-  - 127.0.0.1
-<% for ip in @ips %>
-  - <%= ip %>
-<% end %>
+#:allowed_ips: 
+#  - 127.0.0.1
 
 # 2) Via HTTP request
 # 
@@ -58,7 +55,7 @@
 # You shouldn't authenticate broadcasts from subscribed clients using this method
 # since the secret_key will be easily visible in the page (and not so secret any more)!
 # 
-:secret_key: 6c1a04d5da7d9c9f879b506e0b866a81e145d4f9
+# :secret_key: 6c1a04d5da7d9c9f879b506e0b866a81e145d4f9
 
 # == Subscription Logout ==
 
